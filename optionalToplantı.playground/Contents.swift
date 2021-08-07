@@ -8,6 +8,7 @@ struct FootballTeam {
     let country: String?
     let colors: (primary: String?, secondary: String?)
     let stadium: String?
+    var score: Int?
     
 
 }
@@ -96,9 +97,16 @@ func squadAnnouncement(squadOne: FootballTeam, squadTwo: FootballTeam) {
 
 squadAnnouncement(squadOne: Fenerbahçe, squadTwo: Galatasaray)
 
-func cornerGoal(heading: Int) -> Bool {
-    return heading >= 85
+
+func cornerGoal(team: FootballTeam) {
+    var teamScore = team.score ?? 0
+    let goalScorer = team.players.randomElement()
+    if goalScorer!.heading >= 85 {
+        teamScore += 1
+        print ("\(team) will be using corner kick. \(goalScorer!) has scored an absolute header!")
+    } else {
+        print("Not Goal")
+    }
 }
 
-// arrayden random bir oyuncu alınacak bu oyuncunun headingini kullanarak cornergoal fonksiyonu çağırılacak
-
+cornerGoal(team: Fenerbahçe)
