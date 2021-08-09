@@ -26,27 +26,27 @@ struct Player {
     }
 }
 
-    
-    let player1: Player = Player.init(name: "Alex de", surname: "Souza", id: 01, jerseyNumber: 10,
-                                      position: Player.PositionType.midfielder)
-    let player2: Player = Player.init(name: "Roberto", surname: "Carlos", id: 02, jerseyNumber: 3,
-                                      position: Player.PositionType.defender)
-    let player3: Player = Player.init(name: "Volkan", surname: "Demirel", id: 03, jerseyNumber: 1,
-                                      position: Player.PositionType.goalKeeper)
-    let player4: Player = Player.init(name: "Semih", surname: "Şentürk", id: 04, jerseyNumber: 11,
-                                      position: Player.PositionType.forward)
-    let player5: Player = Player.init(name: "Goerge", surname: "Hagi", id: 05, jerseyNumber: 10,
-                                      position: Player.PositionType.midfielder)
-    let player6: Player = Player.init(name: "Mondra", surname: "Mondragon", id: 06, jerseyNumber: 1,
-                                      position: Player.PositionType.goalKeeper)
-    let player7: Player = Player.init(name: "Sabri", surname: "Sarıoğlu", id: 07, jerseyNumber: 55,
-                                      position: Player.PositionType.defender)
-    let player8: Player = Player.init(name: "Johan", surname: "Elmander", id: 08, jerseyNumber: 11,
-                                      position: Player.PositionType.forward)
-    let player9: Player = Player.init(name: "Radamel", surname: "Falcao", id: 09, jerseyNumber: 99,
-                                      injuryReport: "Foot", position: Player.PositionType.forward)
-    let player10: Player = Player.init(name: "Robin van", surname: "Persie", id: 10, jerseyNumber: 99,
-                                       injuryReport: "Head", position: Player.PositionType.forward)
+
+let player1: Player = Player.init(name: "Alex de", surname: "Souza", id: 01, jerseyNumber: 10,
+                                  position: Player.PositionType.midfielder)
+let player2: Player = Player.init(name: "Roberto", surname: "Carlos", id: 02, jerseyNumber: 3,
+                                  position: Player.PositionType.defender)
+let player3: Player = Player.init(name: "Volkan", surname: "Demirel", id: 03, jerseyNumber: 1,
+                                  position: Player.PositionType.goalKeeper)
+let player4: Player = Player.init(name: "Semih", surname: "Şentürk", id: 04, jerseyNumber: 11,
+                                  position: Player.PositionType.forward)
+let player5: Player = Player.init(name: "Goerge", surname: "Hagi", id: 05, jerseyNumber: 10,
+                                  position: Player.PositionType.midfielder)
+let player6: Player = Player.init(name: "Mondra", surname: "Mondragon", id: 06, jerseyNumber: 1,
+                                  position: Player.PositionType.goalKeeper)
+let player7: Player = Player.init(name: "Sabri", surname: "Sarıoğlu", id: 07, jerseyNumber: 55,
+                                  position: Player.PositionType.defender)
+let player8: Player = Player.init(name: "Johan", surname: "Elmander", id: 08, jerseyNumber: 11,
+                                  position: Player.PositionType.forward)
+let player9: Player = Player.init(name: "Radamel", surname: "Falcao", id: 09, jerseyNumber: 99,
+                                  injuryReport: "Foot", position: Player.PositionType.forward)
+let player10: Player = Player.init(name: "Robin van", surname: "Persie", id: 10, jerseyNumber: 99,
+                                   injuryReport: "Head", position: Player.PositionType.forward)
 
 let Fenerbahçe: FootballTeam = FootballTeam.init(players: [player1, player2, player3, player4, player10], name:"Fenerbahçe" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Blue"), stadium: "Şükrü Saraçoğlu")
 
@@ -85,23 +85,25 @@ func kickOff(home: FootballTeam, away: FootballTeam) {
         print("[1'] İlk düdük geliyor ve maç başlıyor. İki takıma da başarılar dileriz.")
         sleep(2)
     }
+    
     func kickOffEnd() {
         print("Veee maç bitiyor.. \((scoreH == scoreA) ? "Karşılaşmada kazanan çıkmıyor. İki takımda birer puan kazanıyor" : ((scoreH > scoreA) ? "Kazanan takım \(home.name) oluyor. Evinde kaybetmeyerek 3 puanı kazanıyor" : "Kazanan takım \(away.name) oluyor. Bu zorlu deplasmandan 3 puanı almayı başarıyor")).")
     }
     
     func goal() -> String{
-        var randomPlayerInt = Int.random(in: 0..<5)
+        let randomPlayerInt = Int.random(in: 0..<5)
         return "\(randomInt)' GOOOLLLLL! Golün adı \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)")! \(randomTeam) skoru \(scoreH)-\(scoreA) \((scoreH == scoreA) ? "beraberliği yakaladı" : "yapıyor")."
     }
+    
     func card() -> String{
-        var randomPlayerInt = Int.random(in: 0..<5)
-//
-//          if randomTeam == home.name {
-//              home.players.remove(at: randomPlayerInt)
-//          }else{
-//
-//          }
-//
+        let randomPlayerInt = Int.random(in: 0..<5)
+        //
+        //          if randomTeam == home.name {
+        //              home.players.remove(at: randomPlayerInt)
+        //          }else{
+        //
+        //          }
+        //
         return "\(randomInt)' \((Int.random(in: 0..<2) == 0) ? "Kırmızı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") bu sert müdahalesi sonucunda oyundan atılıyor." : "Sarı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") adlı oyuncuya çıkıyor.")"
     }
     
@@ -119,9 +121,6 @@ func kickOff(home: FootballTeam, away: FootballTeam) {
             print(goal())
         }else{
             print(card())
-            
-            
-            
         }
         sleep(2)
     }
