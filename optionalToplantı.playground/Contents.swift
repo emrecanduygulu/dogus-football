@@ -67,9 +67,13 @@ let Galatasaray: FootballTeam = FootballTeam(players: [player5, player6, player7
 func squadAnnouncement(squadOne: FootballTeam, squadTwo: FootballTeam) {
     
     print("We have an Istanbul Derby today. \(squadOne.name) will face against \(squadTwo.name)")
-    print("\(squadOne.name)'s starting eleven is  \(squadOne.starters.map{$0.fullName}.joined(separator: "\n"))")
-    print("\(squadTwo.name)'s starting eleven is \(squadTwo.starters.map{$0.fullName}.joined(separator: "\n"))")
     
+    func teamAnnouncement(team: FootballTeam) -> String {
+        
+         "\(team.name)'s starting eleven is  \(team.starters.map{$0.fullName}.joined(separator: "\n"))"
+    }
+    print(teamAnnouncement(team: squadOne))
+    print(teamAnnouncement(team: squadTwo))
 }
 
 squadAnnouncement(squadOne: Fenerbahçe, squadTwo: Galatasaray)
@@ -110,21 +114,23 @@ enum BoxField: CaseIterable {
     }
 }
 
-func canScore (team: FootballTeam) {
+func canScore (team: FootballTeam) -> Bool {
     let goalScorer = team.starters.randomElement()
-    guard let scorer = goalScorer else { return }
-    guard let randomField = BoxField.allCases.randomElement() else { return }
+    guard let scorer = goalScorer else { return false }
+    guard let randomField = BoxField.allCases.randomElement() else { return false }
     let goalPossibility = Double(scorer.finishing) * randomField.expectedGoals
-    if goalPossibility >= 40 {
-        if team.name == "Fenerbahçe" {
-            fenerbahceScore += 1
-        }else {
-            galatasarayScore += 1
-        }
-        print("\(scorer.fullName) scored from the \(randomField.fieldNames). Fenerbahçe \(fenerbahceScore) - Galatasaray \(galatasarayScore)")
-    } else { print("\(scorer.fullName) took the shot from the \(randomField.fieldNames) but it didn't went in.")
-        
-    }
+    let minGoalPossibilityPercantage = 40.0
+    return goalPossibility >= minGoalPossibilityPercantage
+//    {
+//        if team.name == "Fenerbahçe" {
+//            fenerbahceScore += 1
+//        }else {
+//            galatasarayScore += 1
+//        }
+//        print("\(scorer.fullName) scored from the \(randomField.fieldNames). Fenerbahçe \(fenerbahceScore) - Galatasaray \(galatasarayScore)")
+//    } else { print("\(scorer.fullName) took the shot from the \(randomField.fieldNames) but it didn't went in.")
+//
+//    }
 }
 
 func cornerGoal(team: FootballTeam) {
@@ -144,8 +150,8 @@ func cornerGoal(team: FootballTeam) {
 
 cornerGoal(team: Fenerbahçe)
 cornerGoal(team: Galatasaray)
-canScore(team: Fenerbahçe)
-canScore(team: Galatasaray)
+let isFenerbahçeScored = canScore(team: Fenerbahçe)
+let isGalatasarayScored = canScore(team: Galatasaray)
 print(fenerbahceScore)
 print(galatasarayScore)
 
