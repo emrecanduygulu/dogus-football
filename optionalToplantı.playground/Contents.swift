@@ -97,13 +97,13 @@ func kickOff(home: FootballTeam, away: FootballTeam) {
     
     func card() -> String{
         let randomPlayerInt = Int.random(in: 0..<5)
-        //
-        //          if randomTeam == home.name {
-        //              home.players.remove(at: randomPlayerInt)
-        //          }else{
-        //
-        //          }
-        //
+        
+//        if randomTeam == home.name {
+//            home.players.remove(at: randomPlayerInt)
+//        }else{
+//            
+//        }
+        
         return "\(randomInt)' \((Int.random(in: 0..<2) == 0) ? "Kırmızı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") bu sert müdahalesi sonucunda oyundan atılıyor." : "Sarı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") adlı oyuncuya çıkıyor.")"
     }
     
@@ -125,25 +125,18 @@ func kickOff(home: FootballTeam, away: FootballTeam) {
         sleep(2)
     }
     
+    var x = 1
+    var y = 15
     kickOffStart()
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomInt = Int.random(in: 1..<15)
-    randomHighlight()
-    randomInt = Int.random(in: 15..<30)
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomHighlight()
-    randomInt = Int.random(in: 30..<45)
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomHighlight()
-    randomInt = Int.random(in: 45..<60)
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomHighlight()
-    randomInt = Int.random(in: 60..<75)
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomHighlight()
-    randomInt = Int.random(in: 75..<90)
-    randomTeam = teams[Int.random(in: 0..<2)]
-    randomHighlight()
+    
+    
+    while y != 105 {
+        randomTeam = teams[Int.random(in: 0..<2)]
+        randomInt = Int.random(in: x..<y)
+        randomHighlight()
+        x += 15
+        y += 15
+    }
     kickOffEnd()
 }
 
