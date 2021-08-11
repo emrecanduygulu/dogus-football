@@ -63,25 +63,26 @@ func startMatch(homeTeam: FootballTeam, awayTeam: FootballTeam) {
     var eventEndTime = 15
     let eventTimeRange = 15
     let matchEndTime = 90
+    let duration : UInt32 = 2
     
     func matchEntryAnnouncement() {
         print("İyi akşamlar değerli futbolseverler. Bugün \(homeTeam.name), \(awayTeam.country!) ekibi \(awayTeam.name) takımını \(homeTeam.stadium!) Stadı'nda ağırlıyor. Bu maçın canlı anlatımında sizinle olacağız.")
-        sleep(2)
+        sleep(duration)
         print("Ve ilk 11'ler ekranlarda.")
-        sleep(2)
+        sleep(duration)
         topElevenAnnouncement(team: homeTeam)
         topElevenAnnouncement(team: awayTeam)
         print("Maç başlamak üzere..")
-        sleep(1)
+        sleep(duration)
         print("[1'] İlk düdük geliyor ve maç başlıyor. İki takıma da başarılar dileriz.")
-        sleep(2)
+        sleep(duration)
         
         func topElevenAnnouncement(team: FootballTeam){
             print("\(team.name) takımının ilk 11'i")
             for player in team.players {
                 print("\(player.fullName) \t\t \(player.jerseyNumber)")
             }
-            sleep(2)
+            sleep(duration)
         }
     }
     
@@ -139,7 +140,7 @@ func startMatch(homeTeam: FootballTeam, awayTeam: FootballTeam) {
         }else{
             print(cardToPlayer())
         }
-        sleep(2)
+        sleep(duration)
     }
     
     matchEntryAnnouncement()
