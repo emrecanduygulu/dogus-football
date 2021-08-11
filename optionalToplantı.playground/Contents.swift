@@ -9,14 +9,15 @@ struct FootballTeam {
 }
 
 struct Player {
-    
     let name: String
     let surname: String
     let id: Int
     var jerseyNumber: Int
     var injuryReport: String?
     var position: PositionType
-    
+    var fullName: String {
+        return name + " " + surname
+    }
     
     enum PositionType {
         case goalKeeper
@@ -25,7 +26,6 @@ struct Player {
         case forward
     }
 }
-
 
 let player1: Player = Player.init(name: "Alex de", surname: "Souza", id: 01, jerseyNumber: 10,
                                   position: Player.PositionType.midfielder)
@@ -53,91 +53,105 @@ let Fenerbahçe: FootballTeam = FootballTeam.init(players: [player1, player2, pl
 let Galatasaray: FootballTeam = FootballTeam.init(players: [player5, player6, player7, player8, player9], name:"Galatasaray" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Red"), stadium: "TT Arena")
 
 
-
-
-
-func kickOff(home: FootballTeam, away: FootballTeam) {
-    var scoreH: Int = 0
-    var scoreA: Int = 0
-    let teams = [home.name, away.name]
+func startMatch(homeTeam: FootballTeam, awayTeam: FootballTeam) {
+    var scoreHomeTeam: Int = 0
+    var scoreAwayTeam: Int = 0
+    let matchTeams = [homeTeam, awayTeam]
+    var randomTeam = matchTeams.randomElement()!
+    var randomMinute = Int.random(in: 1..<15)
+    var eventStartTime = 1
+    var eventEndTime = 15
+    let eventTimeRange = 15
+    let matchEndTime = 90
     
-    var randomTeam = teams[Int.random(in: 0..<2)]
-    var randomInt = Int.random(in: 1..<15)
-    
-    func kickOffStart() {
-        print("İyi akşamlar değerli futbolseverler. Bugün \(home.name), \(away.country!) ekibi \(away.name) takımını \(home.stadium!) Stadı'nda ağırlıyor. Bu maçın canlı anlatımında sizinle olacağız.")
+    func matchEntryAnnouncement() {
+        print("İyi akşamlar değerli futbolseverler. Bugün \(homeTeam.name), \(awayTeam.country!) ekibi \(awayTeam.name) takımını \(homeTeam.stadium!) Stadı'nda ağırlıyor. Bu maçın canlı anlatımında sizinle olacağız.")
         sleep(2)
         print("Ve ilk 11'ler ekranlarda.")
         sleep(2)
-        print("\(home.name) takımının ilk 11'i")
-        for player in home.players {
-            print("\(player.name) \(player.surname) \t\t \(player.jerseyNumber)")
-        }
-        sleep(2)
-        print("\(away.name) takımının ilk 11'i")
-        sleep(2)
-        for player in away.players {
-            print("\(player.name) \(player.surname) \t\t \(player.jerseyNumber)")
-        }
-        sleep(2)
+        topElevenAnnouncement(team: homeTeam)
+        topElevenAnnouncement(team: awayTeam)
         print("Maç başlamak üzere..")
         sleep(1)
         print("[1'] İlk düdük geliyor ve maç başlıyor. İki takıma da başarılar dileriz.")
         sleep(2)
-    }
-    
-    func kickOffEnd() {
-        print("Veee maç bitiyor.. \((scoreH == scoreA) ? "Karşılaşmada kazanan çıkmıyor. İki takımda birer puan kazanıyor" : ((scoreH > scoreA) ? "Kazanan takım \(home.name) oluyor. Evinde kaybetmeyerek 3 puanı kazanıyor" : "Kazanan takım \(away.name) oluyor. Bu zorlu deplasmandan 3 puanı almayı başarıyor")).")
-    }
-    
-    func goal() -> String{
-        let randomPlayerInt = Int.random(in: 0..<5)
-        return "\(randomInt)' GOOOLLLLL! Golün adı \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)")! \(randomTeam) skoru \(scoreH)-\(scoreA) \((scoreH == scoreA) ? "beraberliği yakaladı" : "yapıyor")."
-    }
-    
-    func card() -> String{
-        let randomPlayerInt = Int.random(in: 0..<5)
         
-//        if randomTeam == home.name {
-//            home.players.remove(at: randomPlayerInt)
-//        }else{
-//            
-//        }
+        func topElevenAnnouncement(team: FootballTeam){
+            print("\(team.name) takımının ilk 11'i")
+            for player in team.players {
+                print("\(player.fullName) \t\t \(player.jerseyNumber)")
+            }
+            sleep(2)
+        }
+    }
+    
+    func matchEndAnnouncement() -> String {
+        func matchTotalScoreAnnouncement() -> String{
+            if scoreHomeTeam == scoreAwayTeam {
+                return "Karşılaşmada kazanan çıkmıyor. İki takımda birer puan kazanıyor"
+            }else if(scoreHomeTeam > scoreAwayTeam){
+                return "Kazanan takım \(homeTeam.name) oluyor. Evinde kaybetmeyerek 3 puanı kazanıyor"
+            }else{
+                return "Kazanan takım \(awayTeam.name) oluyor. Bu zorlu deplasmandan 3 puanı almayı başarıyor"
+            }
+        }
+        return ("Veee maç bitiyor..\(matchTotalScoreAnnouncement())")
+    }
+    
+    func scoreGoal() -> String{
+        func goalScorer() -> String{
+            if randomTeam.name == homeTeam.name {
+                return homeTeam.players.randomElement()!.fullName
+            }else{
+                return awayTeam.players.randomElement()!.fullName
+            }
+        }
         
-        return "\(randomInt)' \((Int.random(in: 0..<2) == 0) ? "Kırmızı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") bu sert müdahalesi sonucunda oyundan atılıyor." : "Sarı kart! \((randomTeam == home.name) ? "\(home.players[randomPlayerInt].name)" : "\(away.players[randomPlayerInt].name)") adlı oyuncuya çıkıyor.")"
+        func resultAfterGoal() -> String{
+            if (scoreHomeTeam == scoreAwayTeam) {
+                return "beraberliği yakaladı"
+            }else{
+                return "yapıyor"
+            }
+        }
+        
+        return " \(randomMinute)' GOOOLLLLL! Golün adı \(goalScorer()). \(randomTeam.name) skoru \(scoreHomeTeam)-\(scoreAwayTeam) \(resultAfterGoal())."
+    }
+    
+    func cardToPlayer() -> String{
+        let isRedCard =  Bool.random()
+        
+        return "\(randomMinute)'" + (isRedCard ? "Kırmızı kart! \(randomTeam.players.randomElement()!.fullName) bu sert müdahalesi sonucunda oyundan atılıyor." : "Sarı kart! \(randomTeam.players.randomElement()!.fullName) adlı oyuncuya çıkıyor.")
     }
     
     func editScore(){
-        if randomTeam == home.name {
-            scoreH += 1
+        if randomTeam.name == homeTeam.name {
+            scoreHomeTeam += 1
         }else{
-            scoreA += 1
+            scoreAwayTeam += 1
         }
     }
     
     func randomHighlight() {
-        if Int.random(in: 0..<2) == 0 {
+        if Bool.random() {
             editScore()
-            print(goal())
+            print(scoreGoal())
         }else{
-            print(card())
+            print(cardToPlayer())
         }
         sleep(2)
     }
     
-    var x = 1
-    var y = 15
-    kickOffStart()
+    matchEntryAnnouncement()
     
-    
-    while y != 105 {
-        randomTeam = teams[Int.random(in: 0..<2)]
-        randomInt = Int.random(in: x..<y)
+    while (eventEndTime != matchEndTime + eventTimeRange){
+        randomTeam = matchTeams.randomElement()!
+        randomMinute = Int.random(in: eventStartTime..<eventEndTime)
         randomHighlight()
-        x += 15
-        y += 15
+        eventStartTime += eventTimeRange
+        eventEndTime += eventTimeRange
     }
-    kickOffEnd()
+    print(matchEndAnnouncement())
 }
 
-kickOff(home: Galatasaray, away: Fenerbahçe)
+startMatch(homeTeam: Galatasaray, awayTeam: Fenerbahçe)
