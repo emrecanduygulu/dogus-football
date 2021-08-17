@@ -64,6 +64,8 @@ let Galatasaray: FootballTeam = FootballTeam(players: [player5, player6, player7
 func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
     var teamOneScore = 0
     var teamTwoScore = 0
+    var teamOneStarters = teamOne.starters
+    var teamTwoStarters = teamTwo.starters
     
     func squadAnnouncement(squadOne: FootballTeam, squadTwo: FootballTeam) {
         
@@ -146,6 +148,15 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
         let randomPlayer = team.starters.randomElement()
         guard let player = randomPlayer else { return }
         if randomInt == 0 {
+            if team.starters == teamOneStarters {
+                if let index = teamOneStarters.firstIndex(of: player) {
+                teamOneStarters.remove(at: index)
+                }
+            }else if team.starters == teamTwoStarters {
+                if let index = teamTwoStarters.firstIndex(of: player) {
+                teamTwoStarters.remove(at: index)
+                }
+            }
             print("\(player.fullName) received red card! \(team.name) is missing one player now.")
         }else if randomInt <= 4 && randomInt > 0 {
             print("\(player.fullName) received yellow card.")
@@ -176,4 +187,5 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
 }
 
 match(teamOne: Fenerbahçe, teamTwo: Galatasaray)
+
 
