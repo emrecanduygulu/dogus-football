@@ -9,7 +9,10 @@ struct FootballTeam {
     let colors: (primary: String?, secondary: String?)
     let stadium: String?
     var starters: [Player] {
-        players.filter() { player -> Bool in player.injuryReport == nil }
+        players.filter() { player -> Bool in player.injuryReport == nil && player.squadStatus == .starter }
+    }
+    var bench: [Player] {
+        players.filter() { player -> Bool in player.injuryReport == nil && player.squadStatus == .substitute }
     }
 }
 
@@ -21,6 +24,7 @@ struct Player: Equatable {
     var jerseyNumber: Int
     var injuryReport: String?
     var position: PositionType
+    var squadStatus: SquadStatus
     let heading: Int
     let finishing: Int
     var fullName: String {
@@ -33,28 +37,49 @@ struct Player: Equatable {
         case midfielder
         case forward
     }
+    enum SquadStatus {
+        case starter
+        case substitute
+        case reserve
+    }
 }
 
 let player1: Player = Player.init(name: "Alex de", surname: "Souza", id: 01, jerseyNumber: 10,
-                                  position: Player.PositionType.midfielder, heading: 75, finishing: 85)
+                                  position: Player.PositionType.midfielder, squadStatus: Player.SquadStatus.starter, heading: 75, finishing: 85)
 let player2: Player = Player.init(name: "Roberto", surname: "Carlos", id: 02, jerseyNumber: 3,
-                                  position: Player.PositionType.defender, heading: 50, finishing: 75)
+                                  position: Player.PositionType.defender, squadStatus: Player.SquadStatus.starter, heading: 50, finishing: 75)
 let player3: Player = Player.init(name: "Volkan", surname: "Demirel", id: 03, jerseyNumber: 1,
-                                  position: Player.PositionType.goalKeeper, heading: 10, finishing: 1)
+                                  position: Player.PositionType.goalKeeper, squadStatus: Player.SquadStatus.starter, heading: 10, finishing: 1)
 let player4: Player = Player.init(name: "Semih", surname: "Şentürk", id: 04, jerseyNumber: 11,
-                                  position: Player.PositionType.forward, heading: 86, finishing: 77)
+                                  position: Player.PositionType.forward, squadStatus: Player.SquadStatus.starter, heading: 86, finishing: 77)
 let player5: Player = Player.init(name: "Goerge", surname: "Hagi", id: 05, jerseyNumber: 10,
-                                  position: Player.PositionType.midfielder, heading: 75, finishing: 85)
+                                  position: Player.PositionType.midfielder, squadStatus: Player.SquadStatus.starter, heading: 75, finishing: 85)
 let player6: Player = Player.init(name: "Mondra", surname: "Mondragon", id: 06, jerseyNumber: 1,
-                                  position: Player.PositionType.goalKeeper, heading: 10, finishing: 1)
+                                  position: Player.PositionType.goalKeeper, squadStatus: Player.SquadStatus.starter, heading: 10, finishing: 1)
 let player7: Player = Player.init(name: "Sabri", surname: "Sarıoğlu", id: 07, jerseyNumber: 55,
-                                  position: Player.PositionType.defender, heading: 35, finishing: 55)
+                                  position: Player.PositionType.defender, squadStatus: Player.SquadStatus.starter, heading: 35, finishing: 55)
 let player8: Player = Player.init(name: "Johan", surname: "Elmander", id: 08, jerseyNumber: 11,
-                                  position: Player.PositionType.forward, heading: 90, finishing: 80)
+                                  position: Player.PositionType.forward, squadStatus: Player.SquadStatus.starter, heading: 90, finishing: 80)
 let player9: Player = Player.init(name: "Radamel", surname: "Falcao", id: 09, jerseyNumber: 99,
-                                  injuryReport: "Foot", position: Player.PositionType.forward, heading: 80, finishing: 88)
+                                  injuryReport: "Foot", position: Player.PositionType.forward, squadStatus: Player.SquadStatus.starter, heading: 80, finishing: 88)
 let player10: Player = Player.init(name: "Robin van", surname: "Persie", id: 10, jerseyNumber: 99,
-                                   injuryReport: "Head", position: Player.PositionType.forward, heading: 90, finishing: 85)
+                                   injuryReport: "Head", position: Player.PositionType.forward, squadStatus: Player.SquadStatus.starter, heading: 90, finishing: 85)
+let player11: Player = Player.init(name: "Mert", surname: "Günok", id: 11, jerseyNumber: 87,
+                                   position: Player.PositionType.goalKeeper, squadStatus: Player.SquadStatus.substitute, heading: 10, finishing: 1)
+let player12: Player = Player.init(name: "Diego", surname: "Lugano", id: 12, jerseyNumber: 4,
+                                  position: Player.PositionType.defender, squadStatus: Player.SquadStatus.substitute, heading: 90, finishing: 15)
+let player13: Player = Player.init(name: "Deivid", surname: "de Souza", id: 13, jerseyNumber: 9,
+                                  position: Player.PositionType.midfielder, squadStatus: Player.SquadStatus.substitute, heading: 65, finishing: 75)
+let player14: Player = Player.init(name: "Mateja", surname: "Kezman", id: 14, jerseyNumber: 79,
+                                  position: Player.PositionType.forward, squadStatus: Player.SquadStatus.substitute, heading: 78, finishing: 80)
+let player15: Player = Player.init(name: "Fernando", surname: "Muslera", id: 15, jerseyNumber: 87,
+                                  position: Player.PositionType.goalKeeper, squadStatus: Player.SquadStatus.substitute, heading: 10, finishing: 1)
+let player16: Player = Player.init(name: "Servet", surname: "Çetin", id: 16, jerseyNumber: 67,
+                                  position: Player.PositionType.defender, squadStatus: Player.SquadStatus.substitute, heading: 90, finishing: 15)
+let player17: Player = Player.init(name: "Cassio", surname: "Lincoln", id: 17, jerseyNumber: 20,
+                                  position: Player.PositionType.midfielder, squadStatus: Player.SquadStatus.substitute, heading: 55, finishing: 85)
+let player18: Player = Player.init(name: "Didier", surname: "Drogba", id: 08, jerseyNumber: 98,
+                                  position: Player.PositionType.forward, squadStatus: Player.SquadStatus.substitute, heading: 90, finishing: 90)
 
 let Fenerbahçe: FootballTeam = FootballTeam(players: [player1, player2, player3, player4, player10], name:"Fenerbahçe" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Blue"), stadium: "Şükrü Saraçoğlu")
 
@@ -164,6 +189,46 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
             print("\(player.fullName) has made a foul.")
         }
     }
+    
+    func substitution(team: FootballTeam) {
+        let playerGoesIn = team.bench.randomElement()
+        guard let subsIn = playerGoesIn else { return }
+        let playerGoesOut = team.starters.randomElement()
+        guard let subsOut = playerGoesOut else { return }
+        if team.starters == teamOneStarters{
+            if let index = teamOneStarters.firstIndex(of: subsOut){
+        switch subsIn.position {
+        case .defender: teamOneStarters.remove(at: index)
+            teamOneStarters.append(subsIn)
+            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+        case .midfielder: teamOneStarters.remove(at: index)
+            teamOneStarters.append(subsIn)
+            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+        case .forward: teamOneStarters.remove(at: index)
+            teamOneStarters.append(subsIn)
+            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+        default:
+            print("error")
+        }
+            }
+        } else if team.starters == teamTwoStarters {
+                if let index = teamTwoStarters.firstIndex(of: subsOut){
+            switch subsIn.position {
+            case .defender: teamTwoStarters.remove(at: index)
+                teamOneStarters.append(subsIn)
+                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            case .midfielder: teamTwoStarters.remove(at: index)
+                teamOneStarters.append(subsIn)
+                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            case .forward: teamTwoStarters.remove(at: index)
+                teamOneStarters.append(subsIn)
+                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            default:
+                print("error")
+        }
+                }
+    }
+    }
     func randomHighlight() {
         let randomInt = Int.random(in: 0..<5)
         switch randomInt {
@@ -180,9 +245,15 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
     squadAnnouncement(squadOne: teamOne, squadTwo: teamTwo)
     randomHighlight()
     randomHighlight()
+    substitution(team: teamOne)
+    randomHighlight()
+    substitution(team: teamTwo)
     randomHighlight()
     randomHighlight()
+    substitution(team: teamOne)
     randomHighlight()
+    randomHighlight()
+    substitution(team: teamTwo)
     randomHighlight()
 }
 
