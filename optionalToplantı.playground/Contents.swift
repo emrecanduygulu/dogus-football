@@ -81,9 +81,9 @@ let player17: Player = Player.init(name: "Cassio", surname: "Lincoln", id: 17, j
 let player18: Player = Player.init(name: "Didier", surname: "Drogba", id: 08, jerseyNumber: 98,
                                   position: Player.PositionType.forward, squadStatus: Player.SquadStatus.substitute, heading: 90, finishing: 90)
 
-let Fenerbahçe: FootballTeam = FootballTeam(players: [player1, player2, player3, player4, player10], name:"Fenerbahçe" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Blue"), stadium: "Şükrü Saraçoğlu")
+let Fenerbahçe: FootballTeam = FootballTeam(players: [player1, player2, player3, player4, player10, player11, player12, player13, player14], name:"Fenerbahçe" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Blue"), stadium: "Şükrü Saraçoğlu")
 
-let Galatasaray: FootballTeam = FootballTeam(players: [player5, player6, player7, player8, player9], name:"Galatasaray" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Red"), stadium: "TT Arena")
+let Galatasaray: FootballTeam = FootballTeam(players: [player5, player6, player7, player8, player9, player15, player16, player17, player18], name:"Galatasaray" , country: "İstanbul", colors: (primary: "Yellow", secondary: "Red"), stadium: "TT Arena")
 
 
 func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
@@ -137,7 +137,8 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
     }
     
     func goalFromTheBox (team: FootballTeam) {
-        let goalScorer = team.starters.randomElement()
+        let playersOnThePitch = team.name == teamOne.name ? teamOneStarters : teamTwoStarters
+        let goalScorer = playersOnThePitch.randomElement()
         guard let scorer = goalScorer else { return }
         guard let randomField = BoxField.allCases.randomElement() else { return }
         let goalPossibility = Double(scorer.finishing) * randomField.expectedGoals
@@ -154,7 +155,8 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
     }
     
     func cornerGoal(team: FootballTeam) {
-        let goalScorer = team.starters.randomElement()
+        let playersOnThePitch = team.name == teamOne.name ? teamOneStarters : teamTwoStarters
+        let goalScorer = playersOnThePitch.randomElement()
         guard let scorer = goalScorer else { return }
         if scorer.heading >= 80 {
             if team.name == teamOne.name {
@@ -170,14 +172,15 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
     
     func commitingFoul(team: FootballTeam) {
         let randomInt = Int.random(in: 0..<10)
-        let randomPlayer = team.starters.randomElement()
+        let playersOnThePitch = team.name == teamOne.name ? teamOneStarters : teamTwoStarters
+        let randomPlayer = playersOnThePitch.randomElement()
         guard let player = randomPlayer else { return }
         if randomInt == 0 {
-            if team.starters == teamOneStarters {
+            if team.name == teamOne.name {
                 if let index = teamOneStarters.firstIndex(of: player) {
                 teamOneStarters.remove(at: index)
                 }
-            }else if team.starters == teamTwoStarters {
+            }else if team.name == teamTwo.name {
                 if let index = teamTwoStarters.firstIndex(of: player) {
                 teamTwoStarters.remove(at: index)
                 }
@@ -195,36 +198,36 @@ func match(teamOne: FootballTeam, teamTwo: FootballTeam) {
         guard let subsIn = playerGoesIn else { return }
         let playerGoesOut = team.starters.randomElement()
         guard let subsOut = playerGoesOut else { return }
-        if team.starters == teamOneStarters{
+        if team.name == teamOne.name {
             if let index = teamOneStarters.firstIndex(of: subsOut){
-        switch subsIn.position {
+        switch subsOut.position {
         case .defender: teamOneStarters.remove(at: index)
             teamOneStarters.append(subsIn)
-            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            print("\(teamOne.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
         case .midfielder: teamOneStarters.remove(at: index)
             teamOneStarters.append(subsIn)
-            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            print("\(teamOne.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
         case .forward: teamOneStarters.remove(at: index)
             teamOneStarters.append(subsIn)
-            print("\(teamOne.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+            print("\(teamOne.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
         default:
-            print("error")
+            return
         }
             }
-        } else if team.starters == teamTwoStarters {
+        } else if team.name == teamTwo.name {
                 if let index = teamTwoStarters.firstIndex(of: subsOut){
-            switch subsIn.position {
+            switch subsOut.position {
             case .defender: teamTwoStarters.remove(at: index)
                 teamOneStarters.append(subsIn)
-                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+                print("\(teamTwo.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
             case .midfielder: teamTwoStarters.remove(at: index)
                 teamOneStarters.append(subsIn)
-                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+                print("\(teamTwo.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
             case .forward: teamTwoStarters.remove(at: index)
                 teamOneStarters.append(subsIn)
-                print("\(teamTwo.name) making a substitution. \(subsIn) goes in and \(subsOut) goes out.")
+                print("\(teamTwo.name) making a substitution. \(subsIn.fullName) goes in and \(subsOut.fullName) goes out.")
             default:
-                print("error")
+                return
         }
                 }
     }
